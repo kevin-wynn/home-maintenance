@@ -22,6 +22,11 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/lights", lightsRouter);
 
 app.get("/", function(req, res) {
+  console.log(
+    "im here at the root and im gonna server up:",
+    path.join(__dirname + "build/index.html")
+  );
+
   res.sendFile(path.join(__dirname + "build/index.html"));
 });
 
