@@ -1,5 +1,5 @@
 <template>
-  <v-flex shrink v-if="lights.length">
+  <v-flex shrink>
     <AddLightForm/>
     <v-data-table
       v-model="selected"
