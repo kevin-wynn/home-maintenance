@@ -11,10 +11,13 @@ mongoose.connect("mongodb://localhost/home-maintenance", {
 });
 
 const lightsRouter = require("./routes/lights");
+const schedulesRouter = require("./routes/schedules");
 
 const app = express();
 
-app.use(history());
+if (process.env.ENV === "production") {
+  app.use(history());
+}
 
 app.use(logger("dev"));
 app.use(express.json());
@@ -22,8 +25,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use("/lights", lightsRouter);
+app.use("/schedules", schedulesRouter);
 
-app.use(express.static(path.join(__dirname, "dist")));
+if (process.env.ENV === "production") {
+  app.use(express.static(path.join(__dirname, "dist")));
+}
 
 const listener = app.listen(process.env.PORT || 3000, () => {
   console.log("Home Maintenance running on port " + listener.address().port);

@@ -97,7 +97,6 @@ export default {
       })
         .then(resp => resp.json())
         .then(data => {
-          console.log(data);
           this.dialog = false;
           this.form = defaultForm;
         });

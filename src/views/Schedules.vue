@@ -1,12 +1,10 @@
 <template>
-  <v-flex>
+  <v-flex class="schedules">
+    <AddEventForm />
     <v-sheet height="64">
       <v-toolbar flat>
         <v-btn outlined class="mr-4" @click="setToday">
           Today
-        </v-btn>
-        <v-btn color="primary" class="mr-4" @click="addNewCalendarEvent">
-          Add Event
         </v-btn>
         <v-btn fab text small @click="prev">
           <v-icon small>mdi-arrow-left-drop-circle</v-icon>
@@ -67,17 +65,14 @@
           min-width="350px"
           flat
         >
-          <v-toolbar
-            :color="selectedEvent.color"
-            dark
-          >
+          <v-toolbar :color="selectedEvent.color">
             <v-btn icon>
               <v-icon>mdi-calendar-edit</v-icon>
             </v-btn>
             <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
           </v-toolbar>
           <v-card-text>
-            <span v-html="selectedEvent.details"></span>
+            <span v-html="selectedEvent.description"></span>
           </v-card-text>
           <v-card-actions>
             <v-btn
@@ -95,10 +90,17 @@
 </template>
 
 <script>
+import AddEventForm from "@/components/AddEventForm";
 import moment from "moment";
 
 export default {
   name: "Schedules",
+  components: {
+    AddEventForm
+  },
+  mounted: function() {
+    this.getEvents();
+  },
   data: () => ({
     today: moment().format("YYYY-MM-DD"),
     focus: moment().format("YYYY-MM-DD"),
@@ -113,15 +115,7 @@ export default {
     selectedEvent: {},
     selectedElement: null,
     selectedOpen: false,
-    events: [
-      {
-        name: "yo yo yigg",
-        details: "this waddup",
-        start: moment().format("YYYY-MM-DD"),
-        end: moment().format("YYYY-MM-DD"),
-        color: "#4290b2"
-      }
-    ]
+    events: []
   }),
   computed: {
     title() {
@@ -152,14 +146,23 @@ export default {
     },
     monthFormatter() {
       return this.$refs.calendar.getFormatter({
-        timeZone: "UTC",
+        timeZone: "CST",
         month: "long"
       });
     }
   },
   methods: {
-    addNewCalendarEvent() {
-      console.log("hello");
+    getEvents() {
+      fetch("/schedules/getAllEvents")
+        .then(resp => resp.json())
+        .then(data => {
+          data.forEach((date, i, arr) => {
+            arr[i].start = moment(date.start).format("YYYY-MM-DD");
+            arr[i].end = moment(date.end).format("YYYY-MM-DD");
+          });
+
+          this.events = data;
+        });
     },
     viewDay({ date }) {
       this.focus = date;
@@ -209,5 +212,16 @@ export default {
 
 <style lang="scss">
 .schedules {
+  .v-calendar-weekly__day-label {
+    .v-btn {
+      margin-bottom: 3px;
+    }
+  }
+}
+
+.v-card__text {
+  span {
+    color: #303030;
+  }
 }
 </style>
