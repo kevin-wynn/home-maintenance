@@ -3,6 +3,7 @@ import Router from "vue-router";
 import Home from "./views/Home";
 import Lights from "./views/Lights";
 import Schedules from "./views/Schedules";
+import RouterPage from "./views/Router";
 
 Vue.use(Router);
 
@@ -24,6 +25,11 @@ export default new Router({
       path: "/schedules",
       name: "schedules",
       component: Schedules
+    },
+    {
+      path: "/router",
+      name: "router",
+      component: RouterPage
     },
     {
       path: "/about",

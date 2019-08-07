@@ -10,6 +10,13 @@ router.get("/getAllEvents", (req, res) => {
   });
 });
 
+router.delete("/deleteEvent", (req, res) => {
+  Schedule.findByIdAndDelete(req.body.id, err => {
+    if (err) console.log(err);
+    res.sendStatus(200);
+  });
+});
+
 router.post("/saveEvent", (req, res) => {
   req.body.start = moment(req.body.start)
     .utc()

@@ -5,6 +5,8 @@ const logger = require("morgan");
 const mongoose = require("mongoose");
 const history = require("connect-history-api-fallback");
 
+require("dotenv").config();
+
 mongoose.connect("mongodb://localhost/home-maintenance", {
   useNewUrlParser: true,
   useFindAndModify: false
@@ -12,6 +14,7 @@ mongoose.connect("mongodb://localhost/home-maintenance", {
 
 const lightsRouter = require("./routes/lights");
 const schedulesRouter = require("./routes/schedules");
+const netgearRouter = require("./routes/netgear");
 
 const app = express();
 
@@ -26,6 +29,7 @@ app.use(cookieParser());
 
 app.use("/lights", lightsRouter);
 app.use("/schedules", schedulesRouter);
+app.use("/netgear", netgearRouter);
 
 if (process.env.ENV === "production") {
   app.use(express.static(path.join(__dirname, "dist")));

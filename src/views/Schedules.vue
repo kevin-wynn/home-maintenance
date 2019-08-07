@@ -75,12 +75,11 @@
             <span v-html="selectedEvent.description"></span>
           </v-card-text>
           <v-card-actions>
-            <v-btn
-              text
-              color="secondary"
-              @click="selectedOpen = false"
-            >
+            <v-btn text color="secondary" @click="selectedOpen = false">
               Cancel
+            </v-btn>
+            <v-btn text color="warning" @click="deleteEvent(selectedEvent)">
+              Delete
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -152,6 +151,18 @@ export default {
     }
   },
   methods: {
+    deleteEvent(event) {
+      fetch("/schedules/deleteEvent", {
+        method: "DELETE",
+        body: JSON.stringify({ id: event._id }),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }).then(() => {
+        this.getEvents();
+        this.selectedOpen = false;
+      });
+    },
     getEvents() {
       fetch("/schedules/getAllEvents")
         .then(resp => resp.json())

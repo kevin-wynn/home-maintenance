@@ -51,7 +51,7 @@ export default {
         { text: "Temp", value: "temp" },
         { text: "Volts", value: "volt" },
         { text: "Watts", value: "watt" },
-        { text: "Replaced Last", value: "last_replaced" }
+        { text: "Last Replaced", value: "last_replaced" }
       ],
       lights: []
     };

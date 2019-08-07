@@ -32,6 +32,16 @@
             </v-list-item-content>
           </v-list-item>
         </router-link>
+        <router-link to="/router">
+          <v-list-item>
+            <v-list-item-action>
+              <v-icon>mdi-router-wireless</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>Router</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </router-link>
         <router-link to="/settings">
           <v-list-item>
             <v-list-item-action>
